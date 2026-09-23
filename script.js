@@ -1,3 +1,183 @@
+// ==========================================================================
+// 3D Wireframe Cube Cinematic Opening Intro
+// ==========================================================================
+(function init3DCubeIntro() {
+  const overlay = document.getElementById("introOverlay");
+  const skipBtn = document.getElementById("introSkipBtn");
+  const statusText = document.getElementById("hudStatusText");
+  const canvas = document.getElementById("introParticles");
+
+  if (!overlay) return;
+
+  document.body.classList.add("intro-active");
+
+  let introFinished = false;
+  let animFrameId = null;
+
+  // Reduced motion preference
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Particle System
+  let ctx = null;
+  let particles = [];
+  let width = 0;
+  let height = 0;
+
+  if (canvas && !prefersReducedMotion) {
+    ctx = canvas.getContext("2d");
+    const resizeCanvas = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas, { passive: true });
+
+    // Spawn ~42 cyber particles
+    const particleCount = Math.min(48, Math.floor(window.innerWidth / 28));
+    const colors = ["rgba(109, 231, 255,", "rgba(91, 140, 255,", "rgba(166, 108, 255,"];
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: -0.2 - Math.random() * 0.6,
+        radius: 1 + Math.random() * 2,
+        baseAlpha: 0.2 + Math.random() * 0.55,
+        colorPrefix: colors[Math.floor(Math.random() * colors.length)],
+        pulseSpeed: 0.02 + Math.random() * 0.03,
+        pulseOffset: Math.random() * Math.PI * 2
+      });
+    }
+
+    let time = 0;
+    const renderParticles = () => {
+      if (introFinished) return;
+      time += 0.03;
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw faint connections between nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 85) {
+            const alpha = (1 - dist / 85) * 0.16;
+            ctx.strokeStyle = `rgba(109, 231, 255, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw particles
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.y < -10) { p.y = height + 10; p.x = Math.random() * width; }
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+
+        const currentAlpha = p.baseAlpha + Math.sin(time * p.pulseSpeed + p.pulseOffset) * 0.15;
+        ctx.fillStyle = `${p.colorPrefix} ${Math.max(0.05, Math.min(currentAlpha, 1))})`;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "rgba(109, 231, 255, 0.6)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      animFrameId = requestAnimationFrame(renderParticles);
+    };
+
+    animFrameId = requestAnimationFrame(renderParticles);
+  }
+
+  // Finish intro and transition to portfolio
+  function finishIntro(instant = false) {
+    if (introFinished) return;
+    introFinished = true;
+
+    if (animFrameId) {
+      cancelAnimationFrame(animFrameId);
+      animFrameId = null;
+    }
+
+    if (instant || prefersReducedMotion) {
+      overlay.classList.add("hidden");
+      document.body.classList.remove("intro-active");
+      revealHero();
+      return;
+    }
+
+    overlay.classList.add("fade-out");
+
+    setTimeout(() => {
+      overlay.classList.add("hidden");
+      document.body.classList.remove("intro-active");
+      revealHero();
+    }, 650);
+  }
+
+  function revealHero() {
+    // Ensure hero elements reveal smoothly
+    document.querySelectorAll(".hero .reveal").forEach(el => {
+      el.classList.add("visible");
+    });
+  }
+
+  // Event Listeners for skip
+  if (skipBtn) {
+    skipBtn.addEventListener("click", () => finishIntro(false));
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape" && !introFinished) {
+      finishIntro(false);
+      window.removeEventListener("keydown", handleKeyDown);
+    }
+  };
+  window.addEventListener("keydown", handleKeyDown);
+
+  // Timeline Sequence
+  if (prefersReducedMotion) {
+    setTimeout(() => finishIntro(true), 300);
+    return;
+  }
+
+  // Telemetry updates
+  setTimeout(() => {
+    if (!introFinished && statusText) {
+      statusText.textContent = "SYNCHRONIZING 3D MATRIX...";
+    }
+  }, 1400);
+
+  setTimeout(() => {
+    if (!introFinished && statusText) {
+      statusText.textContent = "NEURAL CORE ACTIVE // LAUNCHING";
+    }
+  }, 2300);
+
+  // Accelerate and dissolve sequence
+  setTimeout(() => {
+    if (!introFinished) {
+      overlay.classList.add("fade-out");
+    }
+  }, 2850);
+
+  // Final cleanup and reveal
+  setTimeout(() => {
+    finishIntro(false);
+  }, 3450);
+})();
+
 const body = document.body;
 const themeToggle = document.getElementById("themeToggle");
 

@@ -15,6 +15,96 @@
 </head>
 
 <body>
+  <!-- Futuristic 3D Wireframe Cube Opening Intro -->
+  <div id="introOverlay" class="intro-overlay" aria-label="Intro Animation" role="dialog" aria-modal="true">
+    <canvas id="introParticles" class="intro-particles"></canvas>
+    <div class="intro-backdrop-glow"></div>
+    <div class="intro-grid-plane"></div>
+
+    <div class="cube-scene">
+      <div class="cube-assembly" id="cubeAssembly">
+        <!-- 6 Faces of 3D Wireframe Cyber Cube -->
+        <div class="cube-face cube-front">
+          <div class="cube-wire-grid"></div>
+          <div class="cube-corner c-tl"></div>
+          <div class="cube-corner c-tr"></div>
+          <div class="cube-corner c-bl"></div>
+          <div class="cube-corner c-br"></div>
+          <div class="cube-edge-glow"></div>
+        </div>
+        <div class="cube-face cube-back">
+          <div class="cube-wire-grid"></div>
+          <div class="cube-corner c-tl"></div>
+          <div class="cube-corner c-tr"></div>
+          <div class="cube-corner c-bl"></div>
+          <div class="cube-corner c-br"></div>
+          <div class="cube-edge-glow"></div>
+        </div>
+        <div class="cube-face cube-right">
+          <div class="cube-wire-grid"></div>
+          <div class="cube-corner c-tl"></div>
+          <div class="cube-corner c-tr"></div>
+          <div class="cube-corner c-bl"></div>
+          <div class="cube-corner c-br"></div>
+          <div class="cube-edge-glow"></div>
+        </div>
+        <div class="cube-face cube-left">
+          <div class="cube-wire-grid"></div>
+          <div class="cube-corner c-tl"></div>
+          <div class="cube-corner c-tr"></div>
+          <div class="cube-corner c-bl"></div>
+          <div class="cube-corner c-br"></div>
+          <div class="cube-edge-glow"></div>
+        </div>
+        <div class="cube-face cube-top">
+          <div class="cube-wire-grid"></div>
+          <div class="cube-corner c-tl"></div>
+          <div class="cube-corner c-tr"></div>
+          <div class="cube-corner c-bl"></div>
+          <div class="cube-corner c-br"></div>
+          <div class="cube-edge-glow"></div>
+        </div>
+        <div class="cube-face cube-bottom">
+          <div class="cube-wire-grid"></div>
+          <div class="cube-corner c-tl"></div>
+          <div class="cube-corner c-tr"></div>
+          <div class="cube-corner c-bl"></div>
+          <div class="cube-corner c-br"></div>
+          <div class="cube-edge-glow"></div>
+        </div>
+
+        <!-- 3D Gyro Orbit Rings -->
+        <div class="cube-ring ring-x"></div>
+        <div class="cube-ring ring-y"></div>
+        <div class="cube-ring ring-z"></div>
+
+        <!-- Inner Floating 3D Core with Holographic Text -->
+        <div class="cube-core">
+          <div class="core-plasma"></div>
+          <div class="core-badge">
+            <span class="core-tag">AI // ML</span>
+            <span class="core-brand">RIYA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD Telemetry & Status -->
+    <div class="intro-hud">
+      <div class="hud-status">
+        <span class="hud-indicator"></span>
+        <span class="hud-text" id="hudStatusText">INITIALIZING NEURAL CORE</span>
+      </div>
+      <div class="hud-telemetry">SYS_ID: RG-2026 // 3D_MATRIX_ACTIVE</div>
+      <div class="hud-bar"><div class="hud-bar-inner"></div></div>
+    </div>
+
+    <!-- Skip Intro Button -->
+    <button class="intro-skip" id="introSkipBtn" type="button" aria-label="Skip Intro Animation">
+      SKIP <span>ESC ↗</span>
+    </button>
+  </div>
+
   <div class="noise"></div>
   <div class="aurora aurora-one"></div>
   <div class="aurora aurora-two"></div>
@@ -50,7 +140,7 @@
         <p class="eyebrow">B.TECH • AI/ML • BUILDER</p>
 
         <h1>
-          You turn <span class="gradient-text">curiosity</span><br />
+          I turn <span class="gradient-text">curiosity</span><br />
           into things you can <span class="outline-text">click.</span>
         </h1>
 
